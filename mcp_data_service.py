@@ -9,7 +9,14 @@ import json
 from typing import Dict, Any, List
 from datetime import datetime, timedelta
 from mcp import ClientSession, StdioServerParameters
+from mcp.client.streamable_http import streamablehttp_client
 from mcp.client.stdio import stdio_client
+from config_local import SMITHERY_API_KEY as LOCAL_SMITHERY_API_KEY
+
+from urllib.parse import urlencode
+google_news_base_url = "https://server.smithery.ai/@jmanek/google-news-trends-mcp/mcp"
+params = {"api_key": LOCAL_SMITHERY_API_KEY}
+url = f"{google_news_base_url}?{urlencode(params)}"
 
 class MCPDataService:
     """
@@ -193,30 +200,28 @@ print(json.dumps(result))
         """
         Google News MCP로 뉴스를 가져옵니다.
         """
+        
         try:
             print(f"Google News MCP 호출 시도: {keyword}")
             
             # MCP 클라이언트를 통해 Google News MCP와 통신
-            server_params = StdioServerParameters(
-                command="python3.11",
-                args=["-m", "google_news_trends_mcp"]
-            )
-            
-            async with stdio_client(server_params) as (read, write):
+            # Construct server URL with authentication
+
+            async with streamablehttp_client(url) as (read, write, _):
                 async with ClientSession(read, write) as session:
-                    # MCP 서버 초기화
+                    # Initialize the connection
                     await session.initialize()
                     
-                    # 키워드로 뉴스 검색
+                    # List available tools
                     result = await session.call_tool(
                         "get_news_by_keyword",
                         arguments={
                             "keyword": keyword,
                             "max_results": 3,
-                            "period": 3
+                            "period": 3,
+                            "summarize": False  # 요약 기능 비활성화
                         }
                     )
-                    
                     print(f"Google News MCP 실제 결과: {result}")
                     return result.content if hasattr(result, 'content') else []
                         
@@ -231,27 +236,21 @@ print(json.dumps(result))
         try:
             print(f"Google Top News MCP 호출 시도")
             
-            # MCP 클라이언트를 통해 Google News MCP와 통신
-            server_params = StdioServerParameters(
-                command="python3.11",
-                args=["-m", "google_news_trends_mcp"]
-            )
-            
-            async with stdio_client(server_params) as (read, write):
+            async with streamablehttp_client(url) as (read, write, _):
                 async with ClientSession(read, write) as session:
-                    # MCP 서버 초기화
+                    # Initialize the connection
                     await session.initialize()
                     
-                    # 주요 뉴스 검색
+                    # List available tools
                     result = await session.call_tool(
                         "get_top_news",
                         arguments={
                             "max_results": 3,
-                            "period": 1
+                            "period": 1,
+                            "summarize": False  # 요약 기능 비활성화
                         }
                     )
-                    
-                    print(f"Google Top News MCP 실제 결과: {result}")
+                    print(f"Google News MCP 실제 결과: {result}")
                     return result.content if hasattr(result, 'content') else []
                         
         except Exception as e:

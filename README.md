@@ -28,6 +28,7 @@ playwright install
 
 # Gemini API 키 (실제 키로 교체하세요)
 GEMINI_API_KEY = "GEMINI_API_KEY"
+SMITHERY_API_KEY = "SMITHERY_API_KEY"
 
 # 서버 설정
 HOST = "0.0.0.0"
@@ -39,10 +40,7 @@ LOG_LEVEL = "info"
 ### 5. 서버 실행
 ```bash
 # Yahoo Finance MCP 서버 시작
-cd yahoo-finance-mcp && python3.11 server.py > yahoo_finance_mcp.log 2>&1 &
-
-# Google News MCP 서버 시작
-cd .. && python3.11 -m google_news_trends_mcp > google_news_mcp.log 2>&1 &
+python3.11 ./yahoo-finance-mcp/server.py > yahoo_finance_mcp.log 2>&1 &
 
 # 메인 API 서버 시작
 python3.11 run.py > api_server.log 2>&1 &
@@ -63,8 +61,8 @@ curl -X POST "http://localhost:8001/questions" \
 
 ## 기능
 
-- **Yahoo Finance MCP**: 실시간 주식 데이터 수집 (주가, 시가총액, 거래량 등)
-- **Google News MCP**: 관련 뉴스 및 주요 뉴스 수집
+- **Yahoo Finance MCP**: 실시간 주식 데이터 수집 (주가, 시가총액, 거래량 등) [링크](https://smithery.ai/server/@jmanek/google-news-trends-mcp)
+- **Google News MCP**: 관련 뉴스 및 주요 뉴스 수집 [링크](https://smithery.ai/server/@hwangwoohyun-nav/yahoo-finance-mcp)
 - **Gemini AI**: 수집된 데이터를 바탕으로 주식앱 스타일의 질문 생성
 
 ## API 키 설정
@@ -72,7 +70,8 @@ curl -X POST "http://localhost:8001/questions" \
 API 키가 설정되지 않으면 기본 질문이 반환됩니다. Gemini API를 사용하려면:
 
 1. [Google AI Studio](https://makersuite.google.com/app/apikey)에서 API 키 발급
-2. 환경변수 또는 `config_local.py` 파일에 설정
+2. [smithery](https://smithery.ai/)에서 API 키 발급
+3. 환경변수 또는 `config_local.py` 파일에 설정
 
 ## 보안
 
@@ -83,8 +82,7 @@ API 키가 설정되지 않으면 기본 질문이 반환됩니다. Gemini API�
 
 ```bash
 # 모든 서버 종료
-pkill -f "run.py"
-pkill -f "google_news_trends_mcp"
+pkill -f "run.py" |
 pkill -f "yahoo-finance-mcp"
 ```
 
