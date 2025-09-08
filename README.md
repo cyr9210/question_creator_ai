@@ -19,12 +19,21 @@ playwright install
 ```
 
 ### 4. API 키 설정
+/config_local.py
 ```bash
-# 방법 1: 환경변수 설정
-export GEMINI_API_KEY="your_actual_api_key_here"
+"""
+로컬 환경 설정 파일
+이 파일은 .gitignore에 포함되어 Git에 업로드되지 않습니다.
+"""
 
-# 방법 2: config_local.py 파일에 설정
-# config_local.py 파일을 생성하고 GEMINI_API_KEY를 설정하세요
+# Gemini API 키 (실제 키로 교체하세요)
+GEMINI_API_KEY = "GEMINI_API_KEY"
+
+# 서버 설정
+HOST = "0.0.0.0"
+PORT = 8001
+DEBUG = True
+LOG_LEVEL = "info"
 ```
 
 ### 5. 서버 실행

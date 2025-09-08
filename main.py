@@ -8,12 +8,10 @@ from mcp_data_service import mcp_data_service
 
 # 로컬 설정 파일 import (있는 경우에만)
 try:
-    from config_local import GEMINI_API_KEY as LOCAL_GEMINI_KEY, SMITHERY_API_KEY as LOCAL_SMITHERY_KEY
+    from config_local import GEMINI_API_KEY as LOCAL_GEMINI_KEY
     # 로컬 API 키가 있으면 환경변수에 설정
     if LOCAL_GEMINI_KEY and LOCAL_GEMINI_KEY != "your_actual_api_key_here":
         os.environ["GEMINI_API_KEY"] = LOCAL_GEMINI_KEY
-    if LOCAL_SMITHERY_KEY and LOCAL_SMITHERY_KEY != "your_smithery_api_key_here":
-        os.environ["SMITHERY_API_KEY"] = LOCAL_SMITHERY_KEY
 except ImportError:
     pass  # config_local.py가 없으면 환경변수만 사용
 
