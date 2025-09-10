@@ -8,40 +8,16 @@
 pip3 install -r requirements.txt
 ```
 
-### 2. NLTK 데이터 설치 (Google News MCP용)
-```bash
-python3.11 -c "import nltk; nltk.download('punkt_tab')"
-```
-
-### 3. Playwright 브라우저 설치 (Google News MCP용)
-```bash
-playwright install
-```
-
 ### 4. API 키 설정
-/config_local.py
+.env 파일을 root 경로에 추가한다.
 ```bash
-"""
-로컬 환경 설정 파일
-이 파일은 .gitignore에 포함되어 Git에 업로드되지 않습니다.
-"""
-
 # Gemini API 키 (실제 키로 교체하세요)
 GEMINI_API_KEY = "GEMINI_API_KEY"
 SMITHERY_API_KEY = "SMITHERY_API_KEY"
-
-# 서버 설정
-HOST = "0.0.0.0"
-PORT = 8001
-DEBUG = True
-LOG_LEVEL = "info"
 ```
 
 ### 5. 서버 실행
 ```bash
-# Yahoo Finance MCP 서버 시작
-python3.11 ./yahoo-finance-mcp/server.py > yahoo_finance_mcp.log 2>&1 &
-
 # 메인 API 서버 시작
 python3.11 run.py > api_server.log 2>&1 &
 ```
@@ -61,8 +37,8 @@ curl -X POST "http://localhost:8001/questions" \
 
 ## 기능
 
-- **Yahoo Finance MCP**: 실시간 주식 데이터 수집 (주가, 시가총액, 거래량 등) [링크](https://smithery.ai/server/@jmanek/google-news-trends-mcp)
-- **Google News MCP**: 관련 뉴스 및 주요 뉴스 수집 [링크](https://smithery.ai/server/@hwangwoohyun-nav/yahoo-finance-mcp)
+- **Yahoo Finance MCP**: 실시간 주식 데이터 수집 (주가, 시가총액, 거래량 등) [링크](https://smithery.ai/server/@hwangwoohyun-nav/yahoo-finance-mcp)
+- **Google News MCP**: 관련 뉴스 및 주요 뉴스 수집 [링크](https://smithery.ai/server/@jmanek/google-news-trends-mcp)
 - **Gemini AI**: 수집된 데이터를 바탕으로 주식앱 스타일의 질문 생성
 
 ## API 키 설정
@@ -71,19 +47,13 @@ API 키가 설정되지 않으면 기본 질문이 반환됩니다. Gemini API�
 
 1. [Google AI Studio](https://makersuite.google.com/app/apikey)에서 API 키 발급
 2. [smithery](https://smithery.ai/)에서 API 키 발급
-3. 환경변수 또는 `config_local.py` 파일에 설정
-
-## 보안
-
-- `config_local.py` 파일은 `.gitignore`에 포함되어 Git에 업로드되지 않습니다
-- API 키는 절대 공개 저장소에 업로드하지 마세요
+3. 환경변수 또는 `.env` 파일에 설정
 
 ## 서버 종료
 
 ```bash
 # 모든 서버 종료
-pkill -f "run.py" |
-pkill -f "yahoo-finance-mcp"
+pkill -f "run.py"
 ```
 
 ## 사용법

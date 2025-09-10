@@ -1,11 +1,26 @@
+# 웹 프레임워크 및 서버
 fastapi>=0.104.1
 uvicorn>=0.31.1
 pydantic>=2.11.0
 python-multipart>=0.0.9
+
+# AI 및 LLM
 google-generativeai>=0.3.2
-yfinance>=0.2.55
+fastmcp>=0.1.0
+
+# 데이터 처리
 pandas>=2.1.4
 numpy>=1.25.0
+
+# HTTP 클라이언트
 requests>=2.32.3
 aiohttp>=3.9.1
+
+# 비동기 처리
 anyio>=4.5.0
+
+# MCP (Model Context Protocol)
+mcp>=1.0.0
+
+# 환경 변수 관리
+python-dotenv>=1.0.0
