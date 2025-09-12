@@ -13,12 +13,12 @@ google_news_base_url = "https://server.smithery.ai/@jmanek/google-news-trends-mc
 params = {"api_key": smithery_key}
 google_news_url = f"{google_news_base_url}?{urlencode(params)}"
 
-yahoo_base_url = "https://server.smithery.ai/@hwangwoohyun-nav/yahoo-finance-mcp/mcp"
-params = {"api_key": smithery_key}
-yahoo_url= f"{yahoo_base_url}?{urlencode(params)}"
+# yahoo_base_url = "https://server.smithery.ai/@hwangwoohyun-nav/yahoo-finance-mcp/mcp"
+# params = {"api_key": smithery_key}
+# yahoo_url= f"{yahoo_base_url}?{urlencode(params)}"
 
 
-client = Client(yahoo_url)
+# client = Client(yahoo_url)
 client2 = Client(google_news_url)
 gemini_client = genai.Client()
 
@@ -41,7 +41,7 @@ async def mcp_google_news():
     print(f"Client connected: {client2.is_connected()}")
 
 async def main():    
-    async with client, client2:
+    async with client2:
         keyword = "AAPL"
         prompt = f"""
 당신은 카카오페이증권에서 운영하는 AI 어시스턴트입니다. 
@@ -96,6 +96,9 @@ async def main():
 {keyword}
 ```
 
+뉴스 데이터는 최근 일주일 뉴스로만 분석해줘. (9월5일 이후 데이터들로만 부탁해)
+날짜에 맞는 contents를 찾아서 ticker가 같다면 질문을 만들때 사용해줘.
+
 ## #5. 제약 조건 및 출력
 
 *   **반드시** `#4. 입력데이터`에 제공된 데이터의 내용에 근거하여 질문을 생성해야 합니다.
@@ -117,7 +120,7 @@ async def main():
             contents=prompt,
             config=genai.types.GenerateContentConfig(
                 temperature=0,
-                tools=[client.session, client2.session],
+                tools=[client2.session],
             ),
         )
         print(response.text)
